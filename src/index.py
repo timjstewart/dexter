@@ -8,9 +8,6 @@ import whoosh.index
 from whoosh.fields import *
 from whoosh.qparser import QueryParser
 
-def _u(str):
-    return unicode(str, errors='ignore')
-
 class Writer(object):
     def __init__(self, writer):
         self._writer = writer
@@ -49,6 +46,12 @@ class Index(object):
 
     def get_writer(self):
         return Writer(self._index.writer())
+
+    def get_query_parser(self, field):
+        return QueryParser(field, schema=Index._get_schema())
+
+    def get_searcher(self):
+        return self._index.searcher()
 
     def doc_count(self):
         return self._index.doc_count()

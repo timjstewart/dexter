@@ -3,3 +3,5 @@ test_index/
 \#*\#
 *.bak
 index/
+*.pyc
+__pycache__/

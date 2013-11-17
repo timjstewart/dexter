@@ -35,6 +35,3 @@ class DirectoryIndexer(object):
 
     def _should_index(self, path):
         return os.path.isfile(path)
-
-#    def _get_relative_path(self, path):
-#        return _u(path[len(self.files_directory):])
