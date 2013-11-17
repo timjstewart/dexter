@@ -1,0 +1,22 @@
+{% raw %}
+<!doctype html>
+<html ng-app="Dexter">
+  <head>
+    <script type="text/javascript" src="static/angular.js"></script>
+    <script type="text/javascript" src="static/app.js"></script>
+    <script type="text/javascript" src="static/search.js"></script>
+  </head>
+  <body>
+
+    <div ng-controller="SearchController">
+      <form>
+	<input type="text" ng-model="query" placeholder="Search Text">
+	<button ng-click="search()">Search</button>
+      </form>
+      <div ng-repeat="hit in hits">
+        <a href="/static/content{{ hit.path }}">{{hit.path}}</a>
+      </div>
+    </div>
+  </body>
+</html>
+{% endraw %}
