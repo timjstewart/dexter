@@ -12,10 +12,10 @@ class DirectoryIndexer(object):
         self._factory = TextExtractorFactory()
 
     def index_directory(self, directory):
-        os.path.walk(directory, self._index_directory_helper, self)
+        os.path.walk(directory, self._index_directory_helper, None)
         self._writer.commit()
 
-    def _index_directory_helper(a, self, directory, names):
+    def _index_directory_helper(self, ignored, directory, names):
         for name in names:
             path = os.path.join(directory, name)
             if self._should_index(path):

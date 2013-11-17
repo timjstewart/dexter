@@ -28,7 +28,7 @@ class Index(object):
 
     @staticmethod
     def open_or_create(index_directory):
-        if Indexer.index_exists(index_directory):
+        if Index.exists(index_directory):
             windex = whoosh.index.open_dir(index_directory)
             return Index(index_directory, windex)
         else:
