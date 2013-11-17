@@ -1,22 +1,25 @@
 import sys
 import json
+import os
 import os.path
 import datetime
 import bs4
 
 import whoosh.index
-from whoosh.fields import *
-from whoosh.qparser import QueryParser
+from   whoosh.fields import *
+from   whoosh.qparser import QueryParser
 
-class Writer(object):
+class IndexWriter(object):
     def __init__(self, writer):
         self._writer = writer
+
     def add_document(self, path, title, last_modified, text):
         self._writer.update_document(
             last_modified = last_modified,
             title = title,
             path = path,
             text = text)
+
     def commit(self):
         self._writer.commit()
 
@@ -32,6 +35,8 @@ class Index(object):
             windex = whoosh.index.open_dir(index_directory)
             return Index(index_directory, windex)
         else:
+            if not os.path.isdir(index_directory):
+                os.mkdir(index_directory)
             return Index.create(index_directory)
 
     @staticmethod
@@ -45,7 +50,7 @@ class Index(object):
         return whoosh.index.exists_in(index_directory)
 
     def get_writer(self):
-        return Writer(self._index.writer())
+        return IndexWriter(self._index.writer())
 
     def get_query_parser(self, field):
         return QueryParser(field, schema=Index._get_schema())
@@ -59,8 +64,7 @@ class Index(object):
     @staticmethod
     def _get_schema():
         return Schema(
-            path = ID(unique=True, stored=True),
+            path          = ID(unique=True, stored=True),
             last_modified = STORED,
-            title = TEXT(stored=True),
-            text = TEXT)
-
+            title         = TEXT(stored=True),
+            text          = TEXT)

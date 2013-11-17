@@ -10,11 +10,25 @@
 
     <div ng-controller="SearchController">
       <form>
-	<input type="text" ng-model="query" placeholder="Search Text">
+	<input type="text" ng-model="query" 
+               placeholder="Search Text"><br/>
+        <input type="radio" ng-model="search_type" 
+               value="title_and_text">Title and Text <br/>
+        <input type="radio" ng-model="search_type" 
+               value="title_only">Title Only<br/>
 	<button ng-click="search()">Search</button>
       </form>
-      <div ng-repeat="hit in hits">
-        <a href="/static/content{{ hit.path }}">{{hit.path}}</a>
+      <hr/>
+      <div class="message">
+        {{ message }}
+      </div>
+      <div class="hit" ng-repeat="hit in hits">
+        <div class="doc_title">
+          <a href="/content{{ hit.path }}">{{hit.title}}</a>
+        </div>
+        <div class="doc_path">
+          <i>{{ hit.path }}</i>
+        </div>
       </div>
     </div>
   </body>

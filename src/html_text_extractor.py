@@ -1,5 +1,6 @@
 from text_extractor import TextExtractor
 from bs4 import BeautifulSoup
+import datetime
 
 class HtmlTextExtractor(TextExtractor):
     def __init__(self, text, file_name = None):
@@ -13,11 +14,11 @@ class HtmlTextExtractor(TextExtractor):
     def get_title(self):
         title = self._get_soup().title
         if title:
-            return title.string
+            return title.string.strip()
         else:
             return unicode('')
     def get_full_text(self):
-        return self._get_soup().get_text()
+        return self._get_soup().get_text().strip()
     def _get_soup(self):
         if not self._soup:
             self._soup = BeautifulSoup(self._text)

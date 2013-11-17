@@ -2,9 +2,8 @@ from whoosh.qparser import QueryParser
 
 import copy
 
-class Hit(object):
+class SearchHit(object):
     def __init__(self, hit):
-        print hit
         self.title = hit['title']
         self.path = hit['path']
         self.last_modified = hit['last_modified']
@@ -15,7 +14,7 @@ class Searcher(object):
 
     def find_by_title(self, title, limit=None):
         with self._index.get_searcher() as s:
-            return [Hit(hit) for hit 
+            return [SearchHit(hit) for hit 
                     in s.search(self._get_title_query(title), 
                                 limit=limit)]
 
@@ -25,8 +24,9 @@ class Searcher(object):
 
     def find_by_full_text(self, text, limit=None):
         with self._index.get_searcher() as s:
-            return s.search(self._get_full_text_query(text), 
-                            limit=limit)
+            return [SearchHit(hit) for hit 
+                    in s.search(self._get_full_text_query(text), 
+                                limit=limit)]
 
     def _get_full_text_query(self, text):
         parser = self._index.get_query_parser('text')
