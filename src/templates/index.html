@@ -2,6 +2,7 @@
 <!doctype html>
 <html ng-app="Dexter">
   <head>
+    <title>Dexter</title>
     <script type="text/javascript" src="static/angular.js"></script>
     <script type="text/javascript" src="static/app.js"></script>
     <script type="text/javascript" src="static/search.js"></script>
@@ -10,13 +11,15 @@
 
     <div ng-controller="SearchController">
       <form>
-	<input type="text" ng-model="query" 
-               placeholder="Search Text"><br/>
+	<input type="text" size="40" ng-model="query" 
+               placeholder="Search Text">
+ 	<button ng-click="search()">Search</button>
+        <br/>
+
         <input type="radio" ng-model="search_type" 
-               value="title_and_text">Title and Text <br/>
+               value="title_and_text">Title and Text<br/>
         <input type="radio" ng-model="search_type" 
                value="title_only">Title Only<br/>
-	<button ng-click="search()">Search</button>
       </form>
       <hr/>
       <div class="message">
@@ -29,6 +32,12 @@
         <div class="doc_path">
           <i>{{ hit.path }}</i>
         </div>
+        <div class="doc_highlights" ng-bind-html-unsafe="hit.highlights">
+        </div>
+        <div class="doc_last_modified">
+          <i>Last Indexed: {{ hit.last_modified }}</i>
+        </div>
+        <br/>
       </div>
     </div>
   </body>

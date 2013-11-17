@@ -14,7 +14,7 @@ class HtmlTextExtractor(TextExtractor):
     def get_title(self):
         title = self._get_soup().title
         if title:
-            return title.string.strip()
+            return (title.string or u'').strip()
         else:
             return unicode('')
     def get_full_text(self):

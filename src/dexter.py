@@ -1,5 +1,6 @@
 import sys
 import json
+import datetime
 
 from flask import Flask, render_template, request
 from index import Index
@@ -51,7 +52,9 @@ def _format_results(results):
         hits.append({
             'title': result.title,
             'path': result.path,
-            'last_modified': result.last_modified
+            'last_modified': str(datetime.datetime.fromtimestamp(
+                result.last_modified/1000.0)),
+            'highlights': result.highlights
         })
     return json.dumps(hits)
 
