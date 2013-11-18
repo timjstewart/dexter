@@ -13,7 +13,7 @@ class IndexWriter(object):
     def __init__(self, writer):
         self._writer = writer
 
-    def add_document(self, path, title, last_modified, text):
+    def update_document(self, path, title, last_modified, text):
         self._writer.update_document(
             last_modified = last_modified,
             title = title,
@@ -24,16 +24,16 @@ class IndexWriter(object):
         self._writer.commit()
 
 class Index(object):
-    def __init__(self, index_directory, windex):
+    def __init__(self, index_directory, index):
         self.index_directory = index_directory
-        self._index = windex
+        self._index = index
         self._writer = None
 
     @staticmethod
     def open_or_create(index_directory):
         if Index.exists(index_directory):
-            windex = whoosh.index.open_dir(index_directory)
-            return Index(index_directory, windex)
+            index = whoosh.index.open_dir(index_directory)
+            return Index(index_directory, index)
         else:
             if not os.path.isdir(index_directory):
                 os.mkdir(index_directory)
@@ -41,9 +41,9 @@ class Index(object):
 
     @staticmethod
     def create(index_directory):
-        windex = whoosh.index.create_in(index_directory, 
+        index = whoosh.index.create_in(index_directory, 
                                         Index._get_schema())
-        return Index(index_directory, windex)
+        return Index(index_directory, index)
 
     @staticmethod
     def exists(index_directory):

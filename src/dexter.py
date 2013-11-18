@@ -34,9 +34,11 @@ def search():
     if query:
         searcher = Searcher(index)
         results = searcher.find_by_full_text(query)
-        return render_template("index.html", results=results)
+        return render_template("index.html", 
+                               results=results, 
+                               query = query)
     else:
         return render_template("index.html", 
-                               message="Please enter some text")
+                               message = "Please enter some text")
 
 app.run(debug=True)
