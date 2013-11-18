@@ -23,10 +23,7 @@ class DirectoryIndexer(object):
         for name in names:
             path = os.path.join(directory, name)
             if self._should_index(path):
-                sys.stdout.write('x')
                 self._index_file(path)
-            else:
-                sys.stdout.write('.')
 
     def _index_file(self, path):
         with open(path, 'r') as f:
@@ -37,6 +34,7 @@ class DirectoryIndexer(object):
             title = extractor.get_title()
             last_modified = os.path.getmtime(path)
             if title and full_text:
+                print("Indexing: %s" % path)
                 self._writer.update_document(
                     last_modified = last_modified,
                     path = unicode(path, errors='ignore'),
@@ -48,13 +46,12 @@ class DirectoryIndexer(object):
                 not self._is_indexed_file_current(path))
 
     def _is_indexed_file_current(self, path):
-        searcher = Searcher(self._index)
-        results = searcher.find_by_path(path)
-        if results and len(results) == 1:
-            last_modified = os.path.getmtime(path)
-            last_indexed = results[0].last_modified
-            return datetime.fromtimestamp(last_modified) > last_indexed
+        results = Searcher(self._index).find_by_path(unicode(path))
+        if results and len(results) >= 1:
+            last_modified = datetime.fromtimestamp(os.path.getmtime(path))
+            last_indexed  = results[0].last_modified
+            return last_modified <= last_indexed
         else:
-            return True
+            return False
         
         
