@@ -67,4 +67,4 @@ class Index(object):
             path          = ID(unique=True, stored=True),
             last_modified = STORED,
             title         = TEXT(stored=True),
-            text          = TEXT(stored=True))
+            text          = TEXT(stored=False))

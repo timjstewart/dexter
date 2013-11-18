@@ -13,6 +13,11 @@
       text-align: center;
       }
 
+      .doc_highlights {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      }
+
     </style>
 
   </head>
@@ -32,10 +37,12 @@
         <input type="radio" value="title_only">Title Only
 
       </form>
-      <hr/>
+
       <div class="message">
         {{ message }}
       </div>
+
+      <br/>
 
       <!-- Hits -->
       {% for hit in results %}

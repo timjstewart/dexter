@@ -39,17 +39,4 @@ def search():
         return render_template("index.html", 
                                message="Please enter some text")
 
-def _format_results(results):        
-    hits = []
-    for result in results:
-        hits.append({
-            'title': result.title,
-            'path': result.path,
-            'last_modified': str(datetime.datetime.fromtimestamp(
-                result.last_modified/1000.0)),
-            'highlights': result.highlights
-        })
-    return json.dumps(hits)
-
-
 app.run(debug=True)
