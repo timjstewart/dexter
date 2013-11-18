@@ -1,45 +1,66 @@
-{% raw %}
 <!doctype html>
-<html ng-app="Dexter">
+<html>
   <head>
     <title>Dexter</title>
-    <script type="text/javascript" src="static/angular.js"></script>
-    <script type="text/javascript" src="static/app.js"></script>
-    <script type="text/javascript" src="static/search.js"></script>
+
+    <style type="text/css">
+      body {
+      padding-left: 4em;
+      padding-top: 10px;
+      }
+
+      form {
+      text-align: center;
+      }
+
+    </style>
+
   </head>
   <body>
+    <div>
+      <form action="search">
 
-    <div ng-controller="SearchController">
-      <form>
-	<input type="text" size="40" ng-model="query" 
+	<input name="q" type="text" size="40" autofocus 
                placeholder="Search Text">
- 	<button ng-click="search()">Search</button>
+
+ 	<button type="submit">Search</button>
+
         <br/>
 
-        <input type="radio" ng-model="search_type" 
-               value="title_and_text">Title and Text<br/>
-        <input type="radio" ng-model="search_type" 
-               value="title_only">Title Only<br/>
+        <input type="radio" value="title_and_text" checked>Text and Title
+
+        <input type="radio" value="title_only">Title Only
+
       </form>
       <hr/>
       <div class="message">
         {{ message }}
       </div>
-      <div class="hit" ng-repeat="hit in hits">
+
+      <!-- Hits -->
+      {% for hit in results %}
+      <div class="hit">
+
         <div class="doc_title">
           <a href="/content{{ hit.path }}">{{hit.title}}</a>
         </div>
+
         <div class="doc_path">
           <i>{{ hit.path }}</i>
         </div>
-        <div class="doc_highlights" ng-bind-html-unsafe="hit.highlights">
+
+        <div class="doc_highlights">
+          {{ hit.highlights|safe }}
         </div>
+
         <div class="doc_last_modified">
           <i>Last Indexed: {{ hit.last_modified }}</i>
         </div>
+
         <br/>
       </div>
+      {% endfor %}
+
     </div>
   </body>
 </html>
-{% endraw %}

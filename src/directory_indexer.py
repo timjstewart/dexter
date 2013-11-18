@@ -18,6 +18,7 @@ class DirectoryIndexer(object):
 
     @staticmethod
     def _index_directory_helper(self, directory, names):
+        print "Indexing %s..." % directory
         for name in names:
             path = os.path.join(directory, name)
             if self._should_index(path):
