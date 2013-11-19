@@ -42,14 +42,18 @@ def search():
             actual_query = query
         searcher = Searcher(index)
         results = searcher.find_by_full_text(actual_query)
+        if results:
+            message = None
+        else:
+            message = 'No documents found.'
         return render_template("index.html", 
-                               results=results, 
+                               results = results, 
+                               message = message,
                                query = query,
                                selected_doc_set = doc_set,
                                doc_set_names = doc_set_names)
     else:
         return render_template("index.html", 
-                               message = "Please enter some text",
                                doc_set_names = doc_set_names)
 
 app.run(debug=True)
