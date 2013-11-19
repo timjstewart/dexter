@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Dexter</title>
+    <title>Dexter Search</title>
 
     <style type="text/css">
       body {
@@ -9,6 +9,10 @@
       padding-top: 10px;
       }
 
+      message {
+      text-align: center;
+      }
+      
       form {
       text-align: center;
       }
@@ -16,6 +20,10 @@
       .doc_highlights {
       padding-top: 5px;
       padding-bottom: 5px;
+      }
+
+      .doc_last_modified {
+      font-size: small;
       }
 
     </style>
@@ -42,16 +50,19 @@
  	<button type="submit">Search</button>
 
         <br/>
-
+        <!--
         <input type="radio" value="title_and_text" checked>Text and Title
 
         <input type="radio" value="title_only">Title Only
-
+        -->
       </form>
 
+      {% if message %}
       <div class="message">
+        <br/>
         {{ message }}
       </div>
+      {% endif %}
 
       <br/>
 

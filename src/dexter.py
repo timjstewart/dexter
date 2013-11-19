@@ -1,7 +1,7 @@
 import sys
 import json
 import datetime
-from   flask import Flask, render_template, request
+from   flask import Flask, render_template, request, redirect
 from   werkzeug.wsgi import SharedDataMiddleware
 from   index import Index
 from   doc_set import DocSet
@@ -26,7 +26,7 @@ if __name__ == '__main__':
 
 @app.route("/")
 def root():
-    return render_template("index.html", results=[])
+    return redirect('/search')
 
 @app.route("/search")
 def search():

@@ -11,12 +11,14 @@ class DocSet(object):
         path = self._get_doc_set_file_path()
         if os.path.isfile(path):
             with open(path, 'r') as f:
-                return pickle.load(f)
+                p = list(pickle.load(f))
+                p.sort()
+                return p
         else:
             return set()
 
     def add_doc_set(self, name):
-        p = self.get_doc_set_names()
+        p = set(self.get_doc_set_names())
         p.add(name)
         path = self._get_doc_set_file_path()
         with open(path, 'w') as f:
