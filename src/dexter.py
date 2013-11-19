@@ -36,16 +36,16 @@ def search():
     doc_set_names = DocSet(index_directory).get_doc_set_names()
     if query:
         if doc_set != 'all':
-            actual_query = "doc_set:%s text:%s" % (
-                doc_set, query)
+            actual_query = u"text:%s doc_set:%s" % (
+                query, doc_set)
         else:
             actual_query = query
-        print actual_query
         searcher = Searcher(index)
         results = searcher.find_by_full_text(actual_query)
         return render_template("index.html", 
                                results=results, 
                                query = query,
+                               selected_doc_set = doc_set,
                                doc_set_names = doc_set_names)
     else:
         return render_template("index.html", 

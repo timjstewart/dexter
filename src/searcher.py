@@ -1,4 +1,3 @@
-from whoosh.qparser import QueryParser
 from datetime import datetime
 from bs4 import BeautifulSoup
 from text_extractor_factory import TextExtractorFactory
@@ -37,9 +36,9 @@ class Searcher(object):
 
     def find_by_full_text(self, text, limit=20):
         with self._index.get_searcher() as s:
+            q = self._get_full_text_query(text)
             return [SearchHit(hit) for hit 
-                    in s.search(self._get_full_text_query(text), 
-                                limit=limit)]
+                    in s.search(q, limit=limit)]
 
     def _parse_field_query(self, field_name, query_text):
         parser = self._index.get_query_parser(field_name)

@@ -48,8 +48,9 @@ class Index(object):
     def get_writer(self):
         return IndexWriter(self._index.writer())
 
-    def get_query_parser(self, field):
-        return QueryParser(field, schema=Index._get_schema())
+    def get_query_parser(self, field_name):
+        return QueryParser(field_name, 
+                           schema=self._index.schema)
 
     def get_searcher(self):
         return self._index.searcher()
