@@ -7,6 +7,7 @@ class SearchHit(object):
     def __init__(self, hit):
         self.title = hit['title']
         self.path = hit['path']
+        self.doc_set = hit['doc_set']
         self.last_modified = datetime.fromtimestamp(hit['last_modified'])
         with open(self.path, 'r') as f:
             self.highlights = self._get_highlights(hit)

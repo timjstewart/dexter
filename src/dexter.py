@@ -4,6 +4,7 @@ import datetime
 from   flask import Flask, render_template, request
 from   werkzeug.wsgi import SharedDataMiddleware
 from   index import Index
+from   doc_set import DocSet
 from   searcher import Searcher
 from   jinja2 import Markup
 
@@ -31,14 +32,24 @@ def root():
 def search():
     global index
     query = request.args.get('q')
+    doc_set = request.args.get('d')
+    doc_set_names = DocSet(index_directory).get_doc_set_names()
     if query:
+        if doc_set != 'all':
+            actual_query = "doc_set:%s text:%s" % (
+                doc_set, query)
+        else:
+            actual_query = query
+        print actual_query
         searcher = Searcher(index)
-        results = searcher.find_by_full_text(query)
+        results = searcher.find_by_full_text(actual_query)
         return render_template("index.html", 
                                results=results, 
-                               query = query)
+                               query = query,
+                               doc_set_names = doc_set_names)
     else:
         return render_template("index.html", 
-                               message = "Please enter some text")
+                               message = "Please enter some text",
+                               doc_set_names = doc_set_names)
 
 app.run(debug=True)

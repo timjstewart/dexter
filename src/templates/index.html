@@ -25,8 +25,16 @@
     <div>
       <form action="search">
 
+
 	<input name="q" type="text" size="40" autofocus 
                placeholder="Search Text" value="{{query}}">
+
+        <select name="d">
+          <option value="all">All</option>
+          {% for doc_set in doc_set_names %}
+          <option value="{{doc_set}}">{{doc_set}}</option>
+          {% endfor %}
+        </select>
 
  	<button type="submit">Search</button>
 
@@ -45,11 +53,17 @@
       <br/>
 
       <!-- Hits -->
+
+      {% if not results %}
+      No documents found...
+      {% endif %}
+
       {% for hit in results %}
       <div class="hit">
 
         <div class="doc_title">
           <a href="/content{{ hit.path }}">{{hit.title}}</a>
+          <i>{{ hit.doc_set }}</i>
         </div>
 
         <div class="doc_path">
@@ -65,6 +79,7 @@
         </div>
 
         <br/>
+
       </div>
       {% endfor %}
 

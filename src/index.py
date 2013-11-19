@@ -13,12 +13,8 @@ class IndexWriter(object):
     def __init__(self, writer):
         self._writer = writer
 
-    def update_document(self, path, title, last_modified, text):
-        self._writer.update_document(
-            last_modified = last_modified,
-            title = title,
-            path = path,
-            text = text)
+    def update_document(self, **kwargs):
+        self._writer.update_document(**kwargs)
 
     def commit(self):
         self._writer.commit()
@@ -60,6 +56,12 @@ class Index(object):
 
     def doc_count(self):
         return self._index.doc_count()
+        
+    def add_field(self, field_name, field_spec):
+        try:
+            return self._index.add_field(field_name, field_spec)
+        except whoosh.fields.FieldConfigurationError:
+            pass
 
     @staticmethod
     def _get_schema():
