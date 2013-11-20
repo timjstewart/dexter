@@ -22,14 +22,17 @@ class LibraryIndexer(object):
         self._root_directory = root_directory
         self._index_directory = index_directory
 
+    def index_doc_set(self, doc_set_name):
+        path = os.path.join(self._root_directory, doc_set_name)
+        if os.path.isdir(path):
+            idx = Index.open_or_create(self._index_directory)
+            doc_set = DocSet(self._index_directory)
+            doc_set.add_doc_set(doc_set_name)
+            idx.add_field(_DOC_SET_FIELD, TEXT(stored=True))
+            idxr = _DocSetIndexer(idx, doc_set_name)
+            idxr.index_directory(path)
+
     def index_library(self):
-        for file_name in os.listdir(self._root_directory):
-            path = os.path.join(self._root_directory, file_name)
-            if os.path.isdir(path):
-                idx = Index.open_or_create(self._index_directory)
-                doc_set = DocSet(self._index_directory)
-                doc_set.add_doc_set(file_name)
-                idx.add_field(_DOC_SET_FIELD, TEXT(stored=True))
-                idxr = _DocSetIndexer(idx, file_name)
-                idxr.index_directory(path)
+        for doc_set_name in os.listdir(self._root_directory):
+            self.index_doc_set(doc_set_name)
                 
